@@ -1,4 +1,4 @@
-# Noise2Noise
+# Advx2Advx
 
 This is an unofficial and partial Keras implementation of "Noise2Noise: Learning Image Restoration without Clean Data" [1].
 
