@@ -13,8 +13,10 @@ class L0Loss:
 
     def __call__(self):
         def calc_loss(y_true, y_pred):
-            #y_true=tf.dtypes.cast(y_true, tf.float32)
-            #y_pred=tf.dtypes.cast(y_pred, tf.float32)
+            y_true=tf.dtypes.cast(y_true, tf.float32)
+            y_pred=tf.dtypes.cast(y_pred, tf.float32)
+            print(y_true.shape)
+            print(y_pred.shape)
             loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
             return loss
         return calc_loss

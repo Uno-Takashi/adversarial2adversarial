@@ -32,10 +32,12 @@ def get_noise_model(noise_type="gaussian,0,50"):
             img=img_resize (img)
             img = img.astype(np.float)
             avg_img=do_image_avg(img)
-            #noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),get_random_pert())
-            noise_img=avg_img+get_random_pert()[0]
-            noise_img+=advx_slippage
-            noise_img=noise_img*np.random.beta(3,1)
+            pert_noise=get_random_pert()
+            pert_noise+=advx_slippage
+            pert_noise=pert_noise*np.random.beta(3,1)
+            noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),pert_noise)
+            #noise_img=avg_img+get_random_pert()[0]
+            #noise_img = np.clip(noise_img, 0, 255).astype(np.uint8)
             return noise_img
 
 
@@ -51,7 +53,7 @@ def get_noise_model(noise_type="gaussian,0,50"):
             stddev = np.random.uniform(min_stddev, max_stddev)
             noise = np.random.randn(*img.shape) * stddev
             noise_img += noise
-            noise_img = np.clip(noise_img, 0, 255).astype(np.uint8)
+            noise_img = np.clip(noise_img, 0, 255).astype(np.uint8).astype(np.uint8)
             return noise_img
         return gaussian_noise
     elif tokens[0] == "clean":

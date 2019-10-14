@@ -29,7 +29,7 @@ def get_args():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--image_dir", type=str,  default="E:/imagenet/val/",
                         help="train image dir")
-    parser.add_argument("--test_dir", type=str, default="E:/imagenet/291/",
+    parser.add_argument("--test_dir", type=str, default="E:/imagenet/set5/",
                         help="test image dir")
     parser.add_argument("--image_size", type=int, default=224,
                         help="training patch size")
@@ -39,7 +39,7 @@ def get_args():
                         help="number of epochs")
     parser.add_argument("--lr", type=float, default=0.01,
                         help="learning rate")
-    parser.add_argument("--steps", type=int, default=5000,
+    parser.add_argument("--steps", type=int, default=50,
                         help="steps per epoch")
     parser.add_argument("--loss", type=str, default="l0",
                         help="loss; mse', 'mae', or 'l0' is expected")
