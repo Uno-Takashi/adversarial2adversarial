@@ -39,9 +39,9 @@ def get_args():
                         help="number of epochs")
     parser.add_argument("--lr", type=float, default=0.01,
                         help="learning rate")
-    parser.add_argument("--steps", type=int, default=50,
+    parser.add_argument("--steps", type=int, default=10,
                         help="steps per epoch")
-    parser.add_argument("--loss", type=str, default="l0",
+    parser.add_argument("--loss", type=str, default="mae",
                         help="loss; mse', 'mae', or 'l0' is expected")
     parser.add_argument("--weight", type=str, default=None,
                         help="weight file for restart")
