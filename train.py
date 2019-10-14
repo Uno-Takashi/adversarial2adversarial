@@ -1,8 +1,9 @@
 import argparse
+import tensorflow as tf
 import numpy as np
 from pathlib import Path
-from keras.callbacks import LearningRateScheduler, ModelCheckpoint
-from keras.optimizers import Adam
+from tensorflow.keras.callbacks import LearningRateScheduler, ModelCheckpoint
+from tensorflow.keras.optimizers import Adam
 from model import get_model, PSNR, L0Loss, UpdateAnnealingParameter
 from generator import NoisyImageGenerator, ValGenerator
 from noise_model import get_noise_model
@@ -26,13 +27,13 @@ class Schedule:
 def get_args():
     parser = argparse.ArgumentParser(description="train noise2noise model",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--image_dir", type=str, required=True,
+    parser.add_argument("--image_dir", type=str,  default="E:/imagenet/val/",
                         help="train image dir")
-    parser.add_argument("--test_dir", type=str, required=True,
+    parser.add_argument("--test_dir", type=str, default="E:/imagenet/val/",
                         help="test image dir")
-    parser.add_argument("--image_size", type=int, default=64,
+    parser.add_argument("--image_size", type=int, default=224,
                         help="training patch size")
-    parser.add_argument("--batch_size", type=int, default=16,
+    parser.add_argument("--batch_size", type=int, default=32,
                         help="batch size")
     parser.add_argument("--nb_epochs", type=int, default=60,
                         help="number of epochs")
@@ -40,17 +41,17 @@ def get_args():
                         help="learning rate")
     parser.add_argument("--steps", type=int, default=1000,
                         help="steps per epoch")
-    parser.add_argument("--loss", type=str, default="mse",
+    parser.add_argument("--loss", type=str, default="l0",
                         help="loss; mse', 'mae', or 'l0' is expected")
     parser.add_argument("--weight", type=str, default=None,
                         help="weight file for restart")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
-    parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
+    parser.add_argument("--source_noise_model", type=str, default="advx,0,1",
                         help="noise model for source images")
-    parser.add_argument("--target_noise_model", type=str, default="gaussian,0,50",
+    parser.add_argument("--target_noise_model", type=str, default="clean",
                         help="noise model for target images")
-    parser.add_argument("--val_noise_model", type=str, default="gaussian,25,25",
+    parser.add_argument("--val_noise_model", type=str, default="advx,0,1",
                         help="noise model for validation source images")
     parser.add_argument("--model", type=str, default="srresnet",
                         help="model architecture ('srresnet' or 'unet')")

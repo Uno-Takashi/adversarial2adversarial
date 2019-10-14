@@ -3,10 +3,41 @@ import string
 import random
 import numpy as np
 import cv2
+from perts_util import *
+from PIL import Image
+
+def clac_perts_slippage(path="precomputing_perturbations/"):
+    files = os.listdir(path)
+    files_file = [f for f in files if os.path.isfile(os.path.join(path, f))]
+    mean_sum=0
+    for x in file_file:
+        v=np.load(path+x)
+        mean_sum+=v.mean()
+    print(mean_sum)
+def img_resize(np_img):
+    pil_img=Image.fromarray(np_img)
+    img_resize = pil_img.resize((224, 224))
+    return np.asarray(img_resize)
 
 
 def get_noise_model(noise_type="gaussian,0,50"):
     tokens = noise_type.split(sep=",")
+    if tokens[0] == "advx":
+        # ex: advx,0,1
+        min_stddev = int(tokens[1])
+        max_stddev = int(tokens[2])
+        advx_slippage=0.04141668473257668 ## pre calculate using clac_perts_slippage function in perts_utils.py
+        def advx_noise(img):
+            img=img_resize (img)
+            img = img.astype(np.float)
+            avg_img=do_image_avg(img)
+            noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),get_random_pert())
+            noise_img+=advx_slippage
+            return noise_img
+
+
+        return advx_noise
+
 
     if tokens[0] == "gaussian":
         min_stddev = int(tokens[1])
