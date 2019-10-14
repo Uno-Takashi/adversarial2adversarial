@@ -13,6 +13,8 @@ class L0Loss:
 
     def __call__(self):
         def calc_loss(y_true, y_pred):
+            y_true=tf.dtypes.cast(y_true, tf.float32)
+            y_pred=tf.dtypes.cast(y_pred, tf.float32)
             loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
             return loss
         return calc_loss
@@ -55,7 +57,7 @@ def get_model(model_name="srresnet"):
 
 
 # SRResNet
-def get_srresnet_model(input_channel_num=3, feature_dim=64, resunit_num=16):
+def get_srresnet_model(input_channel_num=3, feature_dim=64, resunit_num=20):
     def _residual_block(inputs):
         x = Conv2D(feature_dim, (3, 3), padding="same", kernel_initializer="he_normal")(inputs)
         x = BatchNormalization()(x)

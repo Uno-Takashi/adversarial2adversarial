@@ -31,7 +31,9 @@ def get_noise_model(noise_type="gaussian,0,50"):
             img=img_resize (img)
             img = img.astype(np.float)
             avg_img=do_image_avg(img)
-            noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),get_random_pert())
+            #noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),get_random_pert())
+            noise_img=avg_img+get_random_pert()[0]
+            noise_img=noise_img*np.random.beta(3,1)
             noise_img+=advx_slippage
             return noise_img
 
