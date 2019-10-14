@@ -2,7 +2,7 @@ from pathlib import Path
 import random
 import numpy as np
 import cv2
-from tensorflow.keras.utils import Sequence
+from keras.utils import Sequence
 
 
 class NoisyImageGenerator(Sequence):
@@ -59,6 +59,7 @@ class ValGenerator(Sequence):
 
         for image_path in image_paths:
             y = cv2.imread(str(image_path))
+            y = cv2.resize(y,(224,224))
             h, w, _ = y.shape
             y = y[:(h // 16) * 16, :(w // 16) * 16]  # for stride (maximum 16)
             x = val_noise_model(y)

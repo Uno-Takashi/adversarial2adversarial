@@ -1,9 +1,9 @@
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Add, PReLU, Conv2DTranspose, Concatenate, MaxPooling2D, UpSampling2D, Dropout
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import BatchNormalization
-from tensorflow.keras.callbacks import Callback
-from tensorflow.keras import backend as K
+from keras.models import Model
+from keras.layers import Input, Add, PReLU, Conv2DTranspose, Concatenate, MaxPooling2D, UpSampling2D, Dropout
+from keras.layers import Conv2D
+from keras.layers import BatchNormalization
+from keras.callbacks import Callback
+from keras import backend as K
 import tensorflow as tf
 
 
@@ -13,8 +13,8 @@ class L0Loss:
 
     def __call__(self):
         def calc_loss(y_true, y_pred):
-            y_true=tf.dtypes.cast(y_true, tf.float32)
-            y_pred=tf.dtypes.cast(y_pred, tf.float32)
+            #y_true=tf.dtypes.cast(y_true, tf.float32)
+            #y_pred=tf.dtypes.cast(y_pred, tf.float32)
             loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
             return loss
         return calc_loss
@@ -36,8 +36,8 @@ class UpdateAnnealingParameter(Callback):
 
 
 def tf_log10(x):
-    numerator = tf.math.log(x)
-    denominator = tf.math.log(tf.constant(10, dtype=numerator.dtype))
+    numerator = tf.log(x)
+    denominator = tf.log(tf.constant(10, dtype=numerator.dtype))
     return numerator / denominator
 
 
@@ -57,7 +57,7 @@ def get_model(model_name="srresnet"):
 
 
 # SRResNet
-def get_srresnet_model(input_channel_num=3, feature_dim=64, resunit_num=20):
+def get_srresnet_model(input_channel_num=3, feature_dim=76, resunit_num=24):
     def _residual_block(inputs):
         x = Conv2D(feature_dim, (3, 3), padding="same", kernel_initializer="he_normal")(inputs)
         x = BatchNormalization()(x)

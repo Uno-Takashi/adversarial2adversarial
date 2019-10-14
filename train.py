@@ -2,8 +2,8 @@ import argparse
 import tensorflow as tf
 import numpy as np
 from pathlib import Path
-from tensorflow.keras.callbacks import LearningRateScheduler, ModelCheckpoint
-from tensorflow.keras.optimizers import Adam
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint
+from keras.optimizers import Adam
 from model import get_model, PSNR, L0Loss, UpdateAnnealingParameter
 from generator import NoisyImageGenerator, ValGenerator
 from noise_model import get_noise_model
@@ -27,7 +27,7 @@ class Schedule:
 def get_args():
     parser = argparse.ArgumentParser(description="train noise2noise model",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--image_dir", type=str,  default="E:/imagenet/291/",
+    parser.add_argument("--image_dir", type=str,  default="E:/imagenet/val/",
                         help="train image dir")
     parser.add_argument("--test_dir", type=str, default="E:/imagenet/291/",
                         help="test image dir")
@@ -39,7 +39,7 @@ def get_args():
                         help="number of epochs")
     parser.add_argument("--lr", type=float, default=0.01,
                         help="learning rate")
-    parser.add_argument("--steps", type=int, default=10,
+    parser.add_argument("--steps", type=int, default=5000,
                         help="steps per epoch")
     parser.add_argument("--loss", type=str, default="l0",
                         help="loss; mse', 'mae', or 'l0' is expected")
@@ -47,7 +47,7 @@ def get_args():
                         help="weight file for restart")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
-    parser.add_argument("--source_noise_model", type=str, default="clean",
+    parser.add_argument("--source_noise_model", type=str, default="advx,0,1",
                         help="noise model for source images")
     parser.add_argument("--target_noise_model", type=str, default="clean",
                         help="noise model for target images")
@@ -107,6 +107,7 @@ def main():
                                callbacks=callbacks)
 
     np.savez(str(output_path.joinpath("history.npz")), history=hist.history)
+    model.save('my_model.h5')
 
 
 if __name__ == '__main__':
