@@ -55,7 +55,7 @@ def get_model(model_name="srresnet"):
 
 
 # SRResNet
-def get_srresnet_model(input_channel_num=3, feature_dim=76, resunit_num=24):
+def get_srresnet_model(input_channel_num=3, feature_dim=48, resunit_num=24):
     def _residual_block(inputs):
         x = Conv2D(feature_dim, (3, 3), padding="same", kernel_initializer="he_normal")(inputs)
         x = BatchNormalization()(x)

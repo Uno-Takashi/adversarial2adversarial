@@ -27,7 +27,7 @@ class Schedule:
 def get_args():
     parser = argparse.ArgumentParser(description="train noise2noise model",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--image_dir", type=str,  default="E:/imagenet/val/",
+    parser.add_argument("--image_dir", type=str,  default="E:/imagenet/train/",
                         help="train image dir")
     parser.add_argument("--test_dir", type=str, default="E:/imagenet/set5/",
                         help="test image dir")
@@ -39,9 +39,9 @@ def get_args():
                         help="number of epochs")
     parser.add_argument("--lr", type=float, default=0.01,
                         help="learning rate")
-    parser.add_argument("--steps", type=int, default=1000,
+    parser.add_argument("--steps", type=int, default=10000,
                         help="steps per epoch")
-    parser.add_argument("--loss", type=str, default="mae",
+    parser.add_argument("--loss", type=str, default="mse",
                         help="loss; mse', 'mae', or 'l0' is expected")
     parser.add_argument("--weight", type=str, default=None,
                         help="weight file for restart")
