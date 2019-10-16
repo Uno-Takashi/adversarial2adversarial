@@ -32,19 +32,14 @@ class NoisyImageGenerator(Sequence):
             image_path = random.choice(self.image_paths)
             image = cv2.imread(str(image_path))
             h, w, _ = image.shape
+            clean_patch = cv2.resize(image,(image_size,image_size))
+            x[sample_id] = self.source_noise_model(clean_patch)
+            y[sample_id] = self.target_noise_model(clean_patch)
 
-            if h >= image_size and w >= image_size:
-                h, w, _ = image.shape
-                i = np.random.randint(h - image_size + 1)
-                j = np.random.randint(w - image_size + 1)
-                clean_patch = image[i:i + image_size, j:j + image_size]
-                x[sample_id] = self.source_noise_model(clean_patch)
-                y[sample_id] = self.target_noise_model(clean_patch)
+            sample_id += 1
 
-                sample_id += 1
-
-                if sample_id == batch_size:
-                    return x, y
+            if sample_id == batch_size:
+                return x, y
 
 
 class ValGenerator(Sequence):
@@ -61,7 +56,7 @@ class ValGenerator(Sequence):
             y = cv2.imread(str(image_path))
             y = cv2.resize(y,(224,224))
             h, w, _ = y.shape
-            y = y[:(h // 16) * 16, :(w // 16) * 16]  # for stride (maximum 16)
+
             x = val_noise_model(y)
             self.data.append([np.expand_dims(x, axis=0), np.expand_dims(y, axis=0)])
 
