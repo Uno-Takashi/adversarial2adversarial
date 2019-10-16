@@ -17,7 +17,7 @@ def get_args():
                         help="test image dir")
     parser.add_argument("--model", type=str, default="srresnet",
                         help="model architecture ('srresnet' or 'unet')")
-    parser.add_argument("--weight_file", type=str, default="checkpoints/weights.022-396886.438-6.27580.hdf5",
+    parser.add_argument("--weight_file", type=str, default="weights.014-4.427-35.47147.hdf5",
                         help="trained weight file")
     parser.add_argument("--test_noise_model", type=str, default="advx,0,1",
                         help="noise model for test images")
