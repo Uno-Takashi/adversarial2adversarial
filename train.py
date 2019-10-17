@@ -35,11 +35,11 @@ def get_args():
                         help="training patch size")
     parser.add_argument("--batch_size", type=int, default=2,
                         help="batch size")
-    parser.add_argument("--nb_epochs", type=int, default=30,
+    parser.add_argument("--nb_epochs", type=int, default=60,
                         help="number of epochs")
     parser.add_argument("--lr", type=float, default=0.01,
                         help="learning rate")
-    parser.add_argument("--steps", type=int, default=1000,
+    parser.add_argument("--steps", type=int, default=10000,
                         help="steps per epoch")
     parser.add_argument("--loss", type=str, default="l0",
                         help="loss; mse', 'mae', or 'l0' is expected")
@@ -47,11 +47,11 @@ def get_args():
                         help="weight file for restart")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
-    parser.add_argument("--source_noise_model", type=str, default="advx,0,1",
+    parser.add_argument("--source_noise_model", type=str, default="advx,4,1",
                         help="noise model for source images")
     parser.add_argument("--target_noise_model", type=str, default="clean",
                         help="noise model for target images")
-    parser.add_argument("--val_noise_model", type=str, default="advx,0,1",
+    parser.add_argument("--val_noise_model", type=str, default="advx,4,1",
                         help="noise model for validation source images")
     parser.add_argument("--model", type=str, default="srresnet",
                         help="model architecture ('srresnet' or 'unet')")
