@@ -34,7 +34,7 @@ def get_noise_model(noise_type="gaussian,0,50"):
             img = img.astype(np.float)
             avg_img=do_image_avg(img)
             pert_noise=get_random_pert()
-            pert_noise+=advx_slippage
+            pert_noise-=advx_slippage
             pert_noise=pert_noise*np.random.beta(a,b)
             noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),pert_noise).astype(np.uint8)
             noise_img=undo_image_avg(noise_img).astype(dtype='uint8')
@@ -56,14 +56,14 @@ def get_noise_model(noise_type="gaussian,0,50"):
             img = img.astype(np.float)
             avg_img=do_image_avg(img)
             pert_noise=get_random_pert()
-            pert_noise+=advx_slippage
+            pert_noise-=advx_slippage
             pert_noise=pert_noise*np.random.beta(a,b)
             noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),pert_noise).astype(np.uint8)
             noise_img=undo_image_avg(noise_img).astype(dtype='uint8')
             noise_img = cv2.cvtColor(noise_img, cv2.COLOR_RGB2BGR)
 
             # gaussian noise
-            noise_img = img.astype(np.float)
+            noise_img = noise_img.astype(np.float)
             stddev = np.random.uniform(min_stddev, max_stddev)
             noise = np.random.randn(*img.shape) * stddev
             noise_img += noise

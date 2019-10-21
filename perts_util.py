@@ -34,3 +34,5 @@ def get_random_pert(path="precomputing_perturbations/"):
     target=np.random.randint(1000)+1
     v=np.load(path+"universal-target-"+str(target).zfill(5)+".npy")
     return v
+
+clac_perts_slippage()
