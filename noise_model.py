@@ -47,6 +47,8 @@ def get_noise_model(noise_type="gaussian,0,50"):
         # ex: advx,0,1
         a = int(tokens[1])
         b = int(tokens[2])
+        min_stddev = int(tokens[3])
+        max_stddev = int(tokens[4])
         advx_slippage=0.04141668473257668 ## pre calculate using clac_perts_slippage function in perts_utils.py
         def advx_noise(img):
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
