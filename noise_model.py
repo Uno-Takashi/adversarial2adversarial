@@ -24,6 +24,26 @@ def get_noise_model(noise_type="gaussian,0,50"):
     tokens = noise_type.split(sep=",")
 
     if tokens[0] == "advx":
+        # ex: advx,a,b  B(a,b)
+        a = int(tokens[1])
+        b = int(tokens[2])
+        advx_slippage=0.04141668473257668 ## pre calculate using clac_perts_slippage function in perts_utils.py
+        def advx_noise(img):
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img=img_resize (img)
+            img = img.astype(np.float)
+            avg_img=do_image_avg(img)
+            pert_noise=get_random_pert()
+            pert_noise+=advx_slippage
+            pert_noise=pert_noise*np.random.beta(a,b)
+            noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),pert_noise).astype(np.uint8)
+            noise_img=undo_image_avg(noise_img).astype(dtype='uint8')
+            noise_img = cv2.cvtColor(noise_img, cv2.COLOR_RGB2BGR)
+            return noise_img
+
+
+        return advx_noise
+    if tokens[0] == "advx&gaussian":
         # ex: advx,0,1
         a = int(tokens[1])
         b = int(tokens[2])
@@ -39,6 +59,13 @@ def get_noise_model(noise_type="gaussian,0,50"):
             noise_img=avg_add_clip_pert(avg_img.reshape(1,224,224,3),pert_noise).astype(np.uint8)
             noise_img=undo_image_avg(noise_img).astype(dtype='uint8')
             noise_img = cv2.cvtColor(noise_img, cv2.COLOR_RGB2BGR)
+
+            # gaussian noise
+            noise_img = img.astype(np.float)
+            stddev = np.random.uniform(min_stddev, max_stddev)
+            noise = np.random.randn(*img.shape) * stddev
+            noise_img += noise
+            noise_img = np.clip(noise_img, 0, 255).astype(np.uint8).astype(np.uint8)
             return noise_img
 
 
